@@ -10,19 +10,12 @@ import {
   Trash2,
   LogOut,
   ChevronRight,
-  Shield,
-  Bell,
-  Sliders,
-  HelpCircle,
-  BookOpen,
-  Users,
   CheckCircle2,
   AlertCircle,
   Eye,
   EyeOff,
   Sparkles,
   X,
-  RefreshCw,
 } from "lucide-react";
 
 type SettingsUser = {
@@ -45,7 +38,6 @@ type ActiveModal = "none" | "edit-profile" | "change-email" | "change-profile" |
 export default function SettingsClient({ initialUser }: { initialUser: SettingsUser }) {
   const router = useRouter();
   const [user, setUser] = useState<SettingsUser>(initialUser);
-  const [activeTab, setActiveTab] = useState<"account" | "learning" | "buddy" | "notifications" | "app" | "privacy" | "support">("account");
   const [activeModal, setActiveModal] = useState<ActiveModal>("none");
 
   // Edit Profile form state
@@ -340,156 +332,21 @@ export default function SettingsClient({ initialUser }: { initialUser: SettingsU
       {/* ── Main Two-Column Layout (Matching Image 1) ── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* ── Left Navigation Column (Tabs) ── */}
+        {/* ── Left Navigation Column (Only Account) ── */}
         <div className="lg:col-span-4 space-y-2.5">
           <div className="rounded-2xl bg-[#0f0e1a]/80 backdrop-blur-xl border border-white/5 p-2 space-y-1.5 shadow-xl">
             
-            {/* Account Tab (Active) */}
-            <button
-              onClick={() => setActiveTab("account")}
-              className={`w-full flex items-start gap-3.5 p-3.5 rounded-xl text-left transition-all ${
-                activeTab === "account"
-                  ? "bg-purple-600/15 border border-purple-500/35 text-white shadow-[0_0_20px_rgba(168,85,247,0.15)]"
-                  : "hover:bg-white/[0.04] text-slate-400 hover:text-slate-200"
-              }`}
+            {/* Account Tab */}
+            <div
+              className="w-full flex items-start gap-3.5 p-3.5 rounded-xl text-left bg-purple-600/15 border border-purple-500/35 text-white shadow-[0_0_20px_rgba(168,85,247,0.15)]"
             >
-              <div
-                className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                  activeTab === "account"
-                    ? "bg-purple-500/20 text-purple-300"
-                    : "bg-white/5 text-slate-400"
-                }`}
-              >
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-purple-500/20 text-purple-300">
                 <User size={17} />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="text-sm font-semibold tracking-tight text-white">Account</div>
                 <div className="text-xs text-slate-400 truncate">Manage your account details</div>
               </div>
-            </button>
-
-            {/* Learning Preferences */}
-            <button
-              onClick={() => setActiveTab("learning")}
-              className={`w-full flex items-start gap-3.5 p-3.5 rounded-xl text-left transition-all ${
-                activeTab === "learning"
-                  ? "bg-purple-600/15 border border-purple-500/35 text-white"
-                  : "hover:bg-white/[0.04] text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 shrink-0">
-                <BookOpen size={17} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-semibold tracking-tight">Learning Preferences</div>
-                <div className="text-xs text-slate-500 truncate">Customize your learning</div>
-              </div>
-            </button>
-
-            {/* Buddy & Networking */}
-            <button
-              onClick={() => setActiveTab("buddy")}
-              className={`w-full flex items-start gap-3.5 p-3.5 rounded-xl text-left transition-all ${
-                activeTab === "buddy"
-                  ? "bg-purple-600/15 border border-purple-500/35 text-white"
-                  : "hover:bg-white/[0.04] text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 shrink-0">
-                <Users size={17} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-semibold tracking-tight">Buddy &amp; Networking</div>
-                <div className="text-xs text-slate-500 truncate">Manage your preferences</div>
-              </div>
-            </button>
-
-            {/* Notifications */}
-            <button
-              onClick={() => setActiveTab("notifications")}
-              className={`w-full flex items-start gap-3.5 p-3.5 rounded-xl text-left transition-all ${
-                activeTab === "notifications"
-                  ? "bg-purple-600/15 border border-purple-500/35 text-white"
-                  : "hover:bg-white/[0.04] text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 shrink-0">
-                <Bell size={17} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-semibold tracking-tight">Notifications</div>
-                <div className="text-xs text-slate-500 truncate">Manage your notifications</div>
-              </div>
-            </button>
-
-            {/* App Preferences */}
-            <button
-              onClick={() => setActiveTab("app")}
-              className={`w-full flex items-start gap-3.5 p-3.5 rounded-xl text-left transition-all ${
-                activeTab === "app"
-                  ? "bg-purple-600/15 border border-purple-500/35 text-white"
-                  : "hover:bg-white/[0.04] text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 shrink-0">
-                <Sliders size={17} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-semibold tracking-tight">App preferences</div>
-                <div className="text-xs text-slate-500 truncate">Customize app experience</div>
-              </div>
-            </button>
-
-            {/* Privacy and Security */}
-            <button
-              onClick={() => setActiveTab("privacy")}
-              className={`w-full flex items-start gap-3.5 p-3.5 rounded-xl text-left transition-all ${
-                activeTab === "privacy"
-                  ? "bg-purple-600/15 border border-purple-500/35 text-white"
-                  : "hover:bg-white/[0.04] text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 shrink-0">
-                <Shield size={17} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-semibold tracking-tight">Privacy and security</div>
-                <div className="text-xs text-slate-500 truncate">Manage privacy and security</div>
-              </div>
-            </button>
-
-            {/* Support */}
-            <button
-              onClick={() => setActiveTab("support")}
-              className={`w-full flex items-start gap-3.5 p-3.5 rounded-xl text-left transition-all ${
-                activeTab === "support"
-                  ? "bg-purple-600/15 border border-purple-500/35 text-white"
-                  : "hover:bg-white/[0.04] text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 shrink-0">
-                <HelpCircle size={17} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-semibold tracking-tight">Support</div>
-                <div className="text-xs text-slate-500 truncate">Help and support center</div>
-              </div>
-            </button>
-
-            {/* Logout Link in Left Menu (Matching Image 1) */}
-            <div className="pt-2 border-t border-white/5">
-              <button
-                onClick={() => void signOut({ callbackUrl: "/login" })}
-                className="w-full flex items-start gap-3.5 p-3.5 rounded-xl text-left hover:bg-rose-500/10 text-rose-400 hover:text-rose-300 transition-all group"
-              >
-                <div className="w-8 h-8 rounded-lg bg-rose-500/15 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform shrink-0">
-                  <LogOut size={17} />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-semibold tracking-tight text-rose-400">Logout</div>
-                  <div className="text-xs text-rose-300/70 truncate">Log out from your account</div>
-                </div>
-              </button>
             </div>
 
           </div>
@@ -500,15 +357,14 @@ export default function SettingsClient({ initialUser }: { initialUser: SettingsU
           
           <div className="flex items-center justify-between mb-1">
             <h2 className="font-display font-bold text-xl text-white">
-              {activeTab === "account" ? "Account" : activeTab === "learning" ? "Learning Preferences" : "Settings"}
+              Account
             </h2>
             <span className="text-xs text-purple-400/80 font-medium">
               Member since {formattedJoinDate}
             </span>
           </div>
 
-          {activeTab === "account" ? (
-            <div className="space-y-3">
+          <div className="space-y-3">
               
               {/* 1. Edit Profile Card */}
               <div
@@ -651,24 +507,7 @@ export default function SettingsClient({ initialUser }: { initialUser: SettingsU
               </div>
 
             </div>
-          ) : (
-            /* Other Tabs Placeholder */
-            <div className="rounded-2xl bg-[#0f0e1a]/80 backdrop-blur-xl border border-white/5 p-8 text-center space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mx-auto text-purple-400">
-                <Sliders size={22} />
-              </div>
-              <h3 className="font-bold text-lg text-white capitalize">{activeTab} Preferences</h3>
-              <p className="text-xs text-slate-400 max-w-md mx-auto">
-                These settings are automatically synchronized with your learning track. Manage your core identity under the Account tab.
-              </p>
-              <button
-                onClick={() => setActiveTab("account")}
-                className="mt-2 px-4 py-2 rounded-xl bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs font-semibold hover:bg-purple-600/30 transition-all"
-              >
-                Back to Account Settings
-              </button>
-            </div>
-          )}
+        </div>
 
         </div>
 
