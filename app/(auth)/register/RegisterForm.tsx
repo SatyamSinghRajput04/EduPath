@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Eye, EyeOff, User, Mail, Lock, ArrowRight, AlertCircle, CheckCircle2, Sparkles } from "lucide-react";
 
 export default function RegisterForm() {
@@ -41,12 +42,29 @@ export default function RegisterForm() {
       if (!res.ok) {
         const payload = await res.json().catch(() => ({}));
         setError(payload.error ?? "Unable to create account. Please try again.");
+        setPending(false);
         return;
       }
 
       setSuccess(true);
-      setTimeout(() => router.push("/login"), 1500);
-    } finally {
+
+      // Automatically sign in the user and navigate straight to the dashboard
+      const signInResult = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/dashboard",
+      });
+
+      if (signInResult?.error) {
+        // Fallback in case automated sign-in fails
+        router.push("/login?registered=true");
+        return;
+      }
+
+      window.location.href = signInResult?.url ?? "/dashboard";
+    } catch {
+      setError("An unexpected error occurred. Please try again.");
       setPending(false);
     }
   };
@@ -73,14 +91,17 @@ export default function RegisterForm() {
       </div>
 
       {success ? (
-        <div className="relative z-10 p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-center space-y-2 animate-fadeIn my-4">
+        <div className="relative z-10 p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-center space-y-3 animate-fadeIn my-4">
           <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400">
             <CheckCircle2 size={24} />
           </div>
           <h3 className="font-bold text-base text-white">Account Created Successfully!</h3>
           <p className="text-xs text-emerald-300/80">
-            Redirecting you to login in a moment…
+            Signing you in and loading your dashboard…
           </p>
+          <div className="flex justify-center pt-1">
+            <span className="w-5 h-5 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin" />
+          </div>
         </div>
       ) : (
         <form onSubmit={handleRegister} className="relative z-10 space-y-3.5">
