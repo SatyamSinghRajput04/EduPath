@@ -507,11 +507,9 @@ export default function SettingsClient({ initialUser }: { initialUser: SettingsU
               </div>
 
             </div>
-        </div>
+          </div>
 
         </div>
-
-      </div>
 
       {/* ───────────────────────────────────────────────────────────── */}
       {/* ── MODALS FOR DYNAMIC ACTIONS ── */}
