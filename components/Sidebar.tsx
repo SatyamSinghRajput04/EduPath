@@ -23,6 +23,7 @@ import {
   Grid2X2,
   X,
   UserRound,
+  Settings,
 } from "lucide-react";
 
 /* ── Nav structure (grouped like image 1) ─────────────────────── */
@@ -272,18 +273,27 @@ function SidebarContent({
         )}
       </nav>
 
-      {/* ── User footer ── */}
-      <div
+      {/* ── User footer / Settings Trigger (Click to open Settings) ── */}
+      <Link
+        href="/settings"
+        onClick={onClose}
+        title="Account Settings"
         style={{
-          borderTop: "1px solid rgba(255,255,255,0.05)",
+          borderTop: "1px solid rgba(255,255,255,0.06)",
           padding: isCollapsed ? "14px 0" : "12px 14px",
           display: "flex",
           alignItems: "center",
-          gap: 8,
+          gap: 9,
           justifyContent: isCollapsed ? "center" : "flex-start",
           flexShrink: 0,
           overflow: "hidden",
+          textDecoration: "none",
+          background: pathname === "/settings" ? "rgba(139,92,246,0.14)" : "transparent",
+          borderLeft: pathname === "/settings" ? "3px solid #8b5cf6" : "3px solid transparent",
+          transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+          cursor: "pointer",
         }}
+        className="group hover:bg-white/[0.04]"
       >
         {/* Avatar or icon */}
         {isCollapsed ? (
@@ -300,6 +310,7 @@ function SidebarContent({
               fontWeight: 800,
               color: "#fff",
               flexShrink: 0,
+              boxShadow: pathname === "/settings" ? "0 0 12px rgba(139,92,246,0.5)" : "none",
             }}
           >
             {initials}
@@ -307,10 +318,11 @@ function SidebarContent({
         ) : (
           <>
             <div style={{
-              width: 30, height: 30, borderRadius: "50%",
+              width: 32, height: 32, borderRadius: "50%",
               background: "linear-gradient(135deg,#8b5cf6,#6366f1)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: "0.68rem", fontWeight: 800, color: "#fff", flexShrink: 0,
+              fontSize: "0.72rem", fontWeight: 800, color: "#fff", flexShrink: 0,
+              boxShadow: pathname === "/settings" ? "0 0 10px rgba(139,92,246,0.4)" : "none",
             }}>
               {initials}
             </div>
@@ -319,21 +331,30 @@ function SidebarContent({
                 style={{
                   fontSize: "0.82rem",
                   fontWeight: 600,
-                  color: "#e2e8f0",
+                  color: pathname === "/settings" ? "#c4b5fd" : "#e2e8f0",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                 }}
+                className="group-hover:text-purple-300 transition-colors"
               >
                 {name}
               </div>
-              <div style={{ fontSize: "0.68rem", color: "#475569", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              <div style={{ fontSize: "0.68rem", color: "#64748b", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {user?.role === "ADMIN" ? "Admin" : "Learner"} · ⭐ {user?.xp ?? 0} XP
               </div>
             </div>
+            <Settings
+              size={15}
+              className={`shrink-0 transition-all ${
+                pathname === "/settings"
+                  ? "text-purple-400 rotate-45"
+                  : "text-slate-600 group-hover:text-purple-400 group-hover:rotate-45"
+              }`}
+            />
           </>
         )}
-      </div>
+      </Link>
     </div>
   );
 }

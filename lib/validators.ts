@@ -177,3 +177,35 @@ export const codeforcesUserStatusResponseSchema = z.object({
     }),
   ),
 });
+
+export const userProfileUpdateSchema = z.object({
+  name: z.string().trim().min(2, "Name must be at least 2 characters").max(80, "Name cannot exceed 80 characters"),
+  image: z.string().url("Must be a valid image URL").optional().nullable().or(z.literal("")),
+  bio: z.string().max(500, "Bio cannot exceed 500 characters").optional().nullable(),
+});
+
+export const userEmailUpdateSchema = z.object({
+  email: z.string().trim().email("Please provide a valid email address"),
+  currentPassword: z.string().min(1, "Current password is required to verify your identity").optional(),
+});
+
+export const userPasswordUpdateSchema = z.object({
+  currentPassword: z.string().min(1, "Current password is required"),
+  newPassword: z
+    .string()
+    .min(8, "New password must be at least 8 characters")
+    .regex(/[A-Za-z]/, "New password must contain at least one letter")
+    .regex(/\d/, "New password must contain at least one number"),
+  confirmPassword: z.string().min(1, "Please confirm your new password"),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "New passwords do not match",
+  path: ["confirmPassword"],
+});
+
+export const userDeleteAccountSchema = z.object({
+  confirmText: z.literal("DELETE", {
+    errorMap: () => ({ message: 'Please type "DELETE" to confirm account deletion' }),
+  }),
+  password: z.string().optional(),
+});
+
